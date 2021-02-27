@@ -1,4 +1,11 @@
-<h1>Home#home</h1>
-<p>Find me in app/views/home/home.html.erb</p>
+<h1>Home</h1>
 
-
+<p>For testing purposes:</p>
+<% google_scraper("test").each do |article| %>
+  <%= article.title %>
+  <br>
+  <%= article.description %>
+  <br>
+  <%= article.url %>
+  <br><br>
+<% end %>

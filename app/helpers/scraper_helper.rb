@@ -32,14 +32,16 @@ module ScraperHelper
 end
 
 class Article
+  attr_reader :title, :url, :description
+
   def initialize(title, url, description)
     @title = title
     @url = url
     @description = description
   end
 
-  def display
-    puts "#{@title} | #{@url} | #{@description}"
+  def to_s
+    "#{@title} #{@url} #{@description}"
   end
 end
 
