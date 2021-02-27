@@ -61,3 +61,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #Scraping Gems
 gem 'pry' #debugging tool
 gem 'nokogiri' #parsing gem
+gem 'rexml'
