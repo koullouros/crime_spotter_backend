@@ -1,6 +1,20 @@
 require 'open-uri'
 require 'nokogiri'
 
+class Article
+  attr_reader :title, :url, :description
+
+  def initialize(title, url, description)
+    @title = title
+    @url = url
+    @description = description
+  end
+
+  def to_s
+    "#{@title} #{@url} #{@description}"
+  end
+end
+
 module ScraperHelper
 
   def google_scraper(query)
@@ -29,21 +43,18 @@ module ScraperHelper
     articles
   end
 
-end
+  def bbc_scraper(query)
 
-class Article
-  attr_reader :title, :url, :description
-
-  def initialize(title, url, description)
-    @title = title
-    @url = url
-    @description = description
   end
 
-  def to_s
-    "#{@title} #{@url} #{@description}"
-  end
+  #London crime news?
+  #
+  # The independent?
+
+
 end
+
+
 
 
 
