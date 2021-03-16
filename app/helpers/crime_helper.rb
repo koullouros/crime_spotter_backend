@@ -33,7 +33,7 @@ json = JSON.parse(resp.body)
 
 crimes = []
 
-json.each_with_index do |item,index|
+json.each do |item|
   category = item['category']
   crime_date = item['month']
   street = item['location']['street']['name']
