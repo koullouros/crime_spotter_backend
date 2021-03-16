@@ -69,6 +69,7 @@ GEM
     crass (1.0.6)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.7.6)
     erubi (1.10.0)
     ffi (1.15.0-x64-mingw32)
     globalid (0.4.2)
@@ -175,6 +176,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
+  dotenv
   nokogiri
   pg (~> 1.1)
   pry

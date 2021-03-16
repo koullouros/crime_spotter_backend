@@ -42,3 +42,4 @@ gem 'pry' #debugging tool
 gem 'nokogiri' #parsing gem
 gem 'rexml'
 gem 'rest-client'
+gem 'dotenv'
