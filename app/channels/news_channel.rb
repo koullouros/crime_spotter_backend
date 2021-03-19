@@ -1,9 +1,10 @@
 class NewsChannel < ApplicationCable::Channel
 
   def subscribed
-    # stream_from "some_channel"
-    stream_for 'news_channel'
-    ActionCable.server.broadcast 'news_channel', '---------------Test---------------'
+    stream_for "news_channel_#{current_user}"
+    for i in 1..50 do
+      NewsChannel.broadcast_to "news_channel_#{current_user}", { body: '---------------Test---------------' }
+    end
   end
 
   def unsubscribed
