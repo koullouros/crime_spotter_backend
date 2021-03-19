@@ -24,6 +24,8 @@ module CrimeSpotterBackend
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    
+    config.action_cable.mount_path = '/websocket'
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -39,3 +41,5 @@ module CrimeSpotterBackend
     config.api_only = true
   end
 end
+
+
