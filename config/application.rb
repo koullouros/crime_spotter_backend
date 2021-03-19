@@ -27,7 +27,7 @@ module CrimeSpotterBackend
     
     config.action_cable.mount_path = '/news'
     
-    #config.action_cable.url = 'ws://crime-spotter-backend.herokuapp.com/news'
+    config.action_cable.url = 'ws://crime-spotter-backend.herokuapp.com/news'
 
     # Configuration for the application, engines, and railties goes here.
     #
