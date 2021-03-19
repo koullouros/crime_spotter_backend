@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'news/news'
   get 'home/home'
 
   mount ActionCable.server => '/news'
