@@ -27,7 +27,7 @@ module CrimeSpotterBackend
     
     config.action_cable.mount_path = '/news'
     
-    config.action_cable.url = 'ws://crime-spotter-backend.herokuapp.com/news'
+    config.action_cable.url = 'wss://crime-spotter-backend.herokuapp.com/news'
     
     #config.action_cable.allowed_request_origins = [ 'https://crime-spotter-docker.herokuapp.com' ]
     
