@@ -29,7 +29,9 @@ module CrimeSpotterBackend
     
     config.action_cable.url = 'ws://crime-spotter-backend.herokuapp.com/news'
     
-    config.action_cable.allowed_request_origins = [ 'https://crime-spotter-docker.herokuapp.com' ]
+    #config.action_cable.allowed_request_origins = [ 'https://crime-spotter-docker.herokuapp.com' ]
+    
+    config.action_cable.disable_request_forgery_protection = true
 
     # Configuration for the application, engines, and railties goes here.
     #
