@@ -11,8 +11,17 @@ class Article
   end
 
   def to_s
-    "#{@title} #{@url} #{@description}"
+    "#{@title} | #{@url} | #{@description}"
   end
+
+  def to_json(*_args)
+    {
+        title: @title,
+        url: @url,
+        description: @description,
+    }
+  end
+
 end
 
 module ScraperHelper
@@ -35,9 +44,13 @@ module ScraperHelper
     urls.each_with_index do |url,index|
       #Removes excess around urls ("/url?q") and ("&sa..")
       url = url.to_s[7..]
-      url = url.split("&sa")[0]
+      url = url.split('&sa')[0]
 
-      articles.push(Article.new(titles[index], url, description[index]))
+      articles.push(
+        title: titles[index].to_s,
+        url: url.to_s,
+        description: description[index].to_s
+      )
     end
 
     articles
