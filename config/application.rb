@@ -25,7 +25,15 @@ module CrimeSpotterBackend
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
     
-    config.action_cable.mount_path = '/websocket'
+    config.action_cable.mount_path = '/news'
+    
+    config.action_cable.url = 'wss://crime-spotter-backend.herokuapp.com/news'
+
+    config.eager_load = true
+    
+    #config.action_cable.allowed_request_origins = [ 'https://crime-spotter-docker.herokuapp.com' ]
+    
+    config.action_cable.disable_request_forgery_protection = true
 
     # Configuration for the application, engines, and railties goes here.
     #
