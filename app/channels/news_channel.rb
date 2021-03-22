@@ -11,4 +11,8 @@ class NewsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
+  def initialise_source(data)
+    puts data
+  end
+  
 end
