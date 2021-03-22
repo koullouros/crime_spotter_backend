@@ -43,3 +43,5 @@ gem 'nokogiri' #parsing gem
 gem 'rexml'
 gem 'rest-client'
 gem 'dotenv'
+
+gem 'whenever'

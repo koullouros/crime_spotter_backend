@@ -1,6 +1,5 @@
-include CrimeHelper
-
 class CrimeController < ApplicationController
+  include CrimeHelper
 
   def crime
     coordinates = request.query_parameters['poly']
