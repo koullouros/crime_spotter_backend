@@ -1,50 +1,37 @@
 require 'rest-client'
 require 'json'
 
-class Crime
-  attr_reader :category, :crime_date, :street, :outcome_status, :outcome_date, :extra_info
-
-  def initialize(category, crime_date, street, outcome_status, outcome_date, extra_info)
-    @category = category
-    @crime_date = crime_date
-    @street = street
-    @outcome_status = outcome_status
-    @outcome_date = outcome_date
-    @extra_info = extra_info
-
-  end
-
-  def to_s
-    "#{@category} | #{@crime_date} | #{@street} | #{@outcome_status} | #{@outcome_date} | #{@extra_info}"
-  end
-
-end
-
 module CrimeHelper
 
-end
+  def crime_helper(coordinates, date)
 
-date = "2020-12"
-latitude = "52.629729"
-longitude = "-1.131592"
+    resp = RestClient.get("https://data.police.uk/api/crimes-street/all-crime?poly=#{coordinates}&date=#{date}")
+    json = JSON.parse(resp.body)
 
-resp = RestClient.get("https://data.police.uk/api/crimes-at-location?date=#{date}&lat=#{latitude}&lng=#{longitude}")
-json = JSON.parse(resp.body)
+    crimes = []
 
-crimes = []
+    json.each do |item|
+      outcome_status = nil
+      outcome_date = nil
 
-json.each do |item|
-  category = item['category']
-  crime_date = item['month']
-  street = item['location']['street']['name']
-  outcome_status = item['outcome_status']['category']
-  outcome_date = item['outcome_status']['date']
-  extra_info = item['context']
+      if item['outcome_status'] != nil
+        outcome_status = item['outcome_status']['category']
+        outcome_date = item['outcome_status']['date']
+      end
 
-  crimes.push(Crime.new(category, crime_date, street, outcome_status, outcome_date, extra_info))
-end
+      crimes.push(
+        category: item['category'],
+        crime_date: item['month'],
+        street: item['location']['street']['name'],
+        outcome_status: outcome_status,
+        outcome_date: outcome_date,
+        extra_info: item['context'],
+        latitude: item['location']['latitude'],
+        longitude: item['location']['longitude']
+      )
+    end
 
-crimes.each do |crime|
-  puts crime.to_s
+    crimes
+  end
 end
 
