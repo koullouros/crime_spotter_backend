@@ -1,29 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
 
-class Article
-  attr_reader :title, :url, :description
-
-  def initialize(title, url, description)
-    @title = title
-    @url = url
-    @description = description
-  end
-
-  def to_s
-    "#{@title} | #{@url} | #{@description}"
-  end
-
-  def to_json(*_args)
-    {
-        title: @title,
-        url: @url,
-        description: @description,
-    }
-  end
-
-end
-
 module ScraperHelper
 
   def google_scraper(query)
