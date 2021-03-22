@@ -13,7 +13,10 @@ class NewsChannel < ApplicationCable::Channel
 
   def initialise_source(data)
     puts data
-    puts data["location"]
+
+    scrape = google_scraper("#{data["location"]} crime")
+
+    NewsChannel.broadcast_to current_user, scrape
   end
   
 end
