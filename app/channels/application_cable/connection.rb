@@ -1,7 +1,12 @@
 module ApplicationCable
   class NewsSocketUser
-    def initialize(location, source)
+    def initialize
       @uid = (0...32).map { ('a'..'z').to_a[rand(26)] }.join
+      @location = ""
+      @source = ""
+    end
+
+    def set_data(location, source)
       @location = location
       @source = source
     end
@@ -12,7 +17,7 @@ module ApplicationCable
 
     def connect
       # self.current_user = (0...32).map { ('a'..'z').to_a[rand(26)] }.join
-      self.current_user = NewsSocketUser.new(data["location"], data["source"])
+      self.current_user = NewsSocketUser.new
     end
 
   end
