@@ -13,7 +13,7 @@ class NewsChannel < ApplicationCable::Channel
 
   def initialise_source(data)
     puts data
-    puts data.location
+    puts data["location"]
   end
   
 end
