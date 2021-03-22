@@ -1,9 +1,10 @@
+
 class NewsChannel < ApplicationCable::Channel
 
   def subscribed
-    stream_for current_user
+    #stream_for current_user
     for i in 1..50 do
-      NewsChannel.broadcast_to current_user, { body: '---------------Test---------------' }
+      NewsChannel.broadcast_to current_user.uid, { body: '---------------Test---------------' }
     end
   end
 
@@ -13,13 +14,13 @@ class NewsChannel < ApplicationCable::Channel
 
   def initialise_source(data)
     puts data
-    puts current_user
 
+    # data["source"]
     scrape = google_scraper("#{data["location"]} crime")
 
     puts scrape
 
-    NewsChannel.broadcast_to current_user, scrape
+    NewsChannel.broadcast_to current_user.uid, scrape
   end
   
 end
