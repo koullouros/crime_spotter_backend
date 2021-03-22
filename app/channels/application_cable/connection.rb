@@ -10,6 +10,10 @@ module ApplicationCable
       @location = location
       @source = source
     end
+
+    def uid
+      @uid
+    end
   end
 
   class Connection < ActionCable::Connection::Base
