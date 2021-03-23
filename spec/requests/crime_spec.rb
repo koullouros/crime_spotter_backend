@@ -16,10 +16,29 @@ RSpec.describe 'Crimes' do
   end
 
   context 'when a successful response is received' do
-    it 'it should provide a 200 status code' do
+    it 'should provide a 200 status code' do
       successful_request.call
       expect(response.status).to eq(200)
     end
+
+    it 'should contain all the required information' do
+      successful_request.call
+
+      crimes = JSON.parse(response.body)
+
+      crimes.each do |crime|
+        # Check each component of the crime
+        # outcome status and date aren't checked as they are nil quite often
+        assert !crime['category'].nil?
+        assert !crime['crime_date'].nil?
+        assert !crime['street'].nil?
+        assert !crime['extra_info'].nil?
+        assert !crime['latitude'].nil?
+        assert !crime['longitude'].nil?
+
+      end
+    end
+
   end
 
   context 'when a successful response is not received' do
