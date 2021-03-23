@@ -14,7 +14,7 @@ module CrimeHelper
       outcome_status = nil
       outcome_date = nil
 
-      if item['outcome_status'] != nil
+      unless item['outcome_status'].nil?
         outcome_status = item['outcome_status']['category']
         outcome_date = item['outcome_status']['date']
       end
