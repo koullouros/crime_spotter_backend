@@ -38,7 +38,6 @@ RSpec.describe 'Crimes' do
 
       end
     end
-
   end
 
   context 'when a successful response is not received' do
