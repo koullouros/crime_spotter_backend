@@ -20,12 +20,12 @@ class ScraperHelperTest < ActionView::TestCase
 
   test "Should have title, url and description to every article (google_scraper)" do
 
-    articles = google_scraper("test")
+    articles = google_scraper('test')
 
     articles.each do |article|
-      assert_not_nil article.title
-      assert_not_nil article.url
-      assert_not_nil article.description
+      assert_not_nil article[:title]
+      assert_not_nil article[:url]
+      assert_not_nil article[:description]
     end
 
   end
