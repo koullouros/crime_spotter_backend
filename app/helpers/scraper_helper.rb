@@ -24,9 +24,9 @@ module ScraperHelper
       url = url.split('&sa')[0]
 
       articles.push(
-        title: titles[index].to_s,
+        title: titles[index].to_s.force_encoding("ISO-8859-1").encode("UTF-8"),
         url: url.to_s,
-        description: description[index].to_s
+        description: description[index].to_s.force_encoding("ISO-8859-1").encode("UTF-8")
       )
     end
 
