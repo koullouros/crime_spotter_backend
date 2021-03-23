@@ -37,6 +37,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
+#Scraping Gems
 gem 'dotenv'
 gem 'nokogiri'
 gem 'rest-client'
