@@ -1,8 +1,5 @@
 require "test_helper"
 
 class CrimeControllerTest < ActionDispatch::IntegrationTest
-  test "should get crime" do
-    get crime_crime_url
-    assert_response :success
-  end
+  # Testing in spec/requests/crime_spec.rb
 end
