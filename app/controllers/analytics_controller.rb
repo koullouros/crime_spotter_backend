@@ -16,7 +16,18 @@ class AnalyticsController < ApplicationController
     
     poly.flatten!(1)
 
-    render json: {poly: poly}
+    crimes = []
+
+    poly.each { |tri|
+        polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
+        crimes.push(JSON.parse(RestClient.post("https://data.police.uk/api/crimes-street/all-crime", poly: polygon.join(":"), date: "2021-01")))
+        # ? add sleep?
+    }
+    crimes.flatten!(1)
+    #! Memoize crimes in db instead of sending back to user
+    #! Send back poly to user for minimap however
+    #TODO Think of more analytics options
+    render json: crimes
   end
 
   def update_database
