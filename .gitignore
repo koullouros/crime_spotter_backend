@@ -50,3 +50,4 @@ yarn-debug.log*
 .vagrant
 Vagrantfile
 bootstrap.sh
+Gemfile.lock
