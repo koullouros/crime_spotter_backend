@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'analytics/analytics'
   get 'crime/crime' => 'crime#crime'
+  post 'analytics/city' => 'analytics#analytics'
   get 'news/news'
   get 'home/home'
 

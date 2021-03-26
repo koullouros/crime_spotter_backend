@@ -1,29 +1,20 @@
+require "rest-client"
+require 'json'
 
-class AnalyticsController < ApplicationController
 
-  def analytics
-    poly = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{params[:city]}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
-    poly = JSON.parse(poly)[0]["geojson"]["coordinates"]
+poly = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=london&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
+poly = JSON.parse(poly)[0]["geojson"]["coordinates"]
 
-    poly.map! { |poly|
-      poly.map { |vert|
-          [vert[1], vert[0]]
-      }
-    }
-    poly.map! { |poly|
-        earclip_polygon(poly)
-    }
-    
-    poly.flatten!(1)
 
-    render json: {poly: poly}
-  end
 
-  def update_database
+# poly.map! { |vert| "#{vert[1]},#{vert[0]}" }
 
-  end
+# puts poly[0..10].join(":")
 
-  def earclip_polygon(polygon)
+# puts RestClient.post("https://data.police.uk/api/crimes-street/all-crime", poly: poly[0..100].join(":"), date: "2021-01")
+
+
+def earclip_polygon(polygon)
     ear_vertex = []
     triangles = []
 
@@ -110,4 +101,27 @@ def _triangle_sum(x1, y1, x2, y2, x3, y3)
     x1 * (y3 - y2) + x2 * (y1 - y3) + x3 * (y2 - y1)
 end
 
-end
+poly.map! { |poly|
+    poly.map { |vert|
+        [vert[1], vert[0]]
+    }
+}
+
+
+poly.map! { |poly|
+    earclip_polygon(poly)
+}
+
+poly.flatten!(1)
+
+
+crimes = []
+
+poly.each { |tri|
+    polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
+    crimes.push(RestClient.post("https://data.police.uk/api/crimes-street/all-crime", poly: polygon.join(":"), date: "2021-01"))
+    sleep(0.1)
+}
+
+crimes.flatten!(1)
+puts crimes

@@ -8,5 +8,4 @@ class CrimeController < ApplicationController
     render json: crime_helper(coordinates, date)
   end
 
-
 end
