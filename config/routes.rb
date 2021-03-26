@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'analytics/analytics'
   get 'crime/crime' => 'crime#crime'
   get 'news/news'
   get 'home/home'
