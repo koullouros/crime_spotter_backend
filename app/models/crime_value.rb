@@ -1,0 +1,2 @@
+class CrimeValue < ApplicationRecord
+end
