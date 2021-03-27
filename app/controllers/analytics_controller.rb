@@ -24,10 +24,18 @@ class AnalyticsController < ApplicationController
         # ? add sleep?
     }
     crimes.flatten!(1)
+
+    crime_count = {}
+
+    crimes.each { |crime|
+        crime_count[crime["category"]] = crime_count.key?(crime["category"]) ? crime_count[crime["category"]] + 1 : 1
+    }
+
     #! Memoize crimes in db instead of sending back to user
     #! Send back poly to user for minimap however
     #TODO Think of more analytics options
-    render json: crimes
+    puts crime_count
+    render json: crime_count
   end
 
   def update_database
