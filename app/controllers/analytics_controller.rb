@@ -3,7 +3,7 @@ class AnalyticsController < ApplicationController
 
   def analytics
     poly = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{params[:city]}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
-    poly = JSON.parse(poly)[0]["geojson"]["coordinates"]
+    poly = JSON.parse(poly)[0]['geojson']['coordinates']
 
     poly.map! do |poly|
       poly.map do |vert|
@@ -21,7 +21,7 @@ class AnalyticsController < ApplicationController
 
     poly.each do |tri|
       polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
-      crimes.push(JSON.parse(RestClient.post("https://data.police.uk/api/crimes-street/all-crime", poly: polygon.join(":"), date: "2021-01")))
+      crimes.push(JSON.parse(RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: polygon.join(':'), date: '2021-01')))
         # ? add sleep?
     end
     crimes.flatten!(1)
@@ -29,7 +29,7 @@ class AnalyticsController < ApplicationController
     crime_count = {}
 
     crimes.each do |crime|
-      crime_count[crime["category"]] = crime_count.key?(crime["category"]) ? crime_count[crime["category"]] + 1 : 1
+      crime_count[crime['category']] = crime_count.key?(crime['category']) ? crime_count[crime['category']] + 1 : 1
     end
 
     #! Memoize crimes in db instead of sending back to user
@@ -58,7 +58,7 @@ class AnalyticsController < ApplicationController
       ear_vertex.push(point) if _is_ear(prev_point, point, next_point, polygon)
     end
 
-    while not ear_vertex.empty? and points_count >= 3
+    while !ear_vertex.empty? && points_count >= 3
       ear = ear_vertex.pop
       i = polygon.index(ear)
       prev_point = polygon[i-1]
