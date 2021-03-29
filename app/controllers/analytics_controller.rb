@@ -5,31 +5,32 @@ class AnalyticsController < ApplicationController
     poly = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{params[:city]}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
     poly = JSON.parse(poly)[0]["geojson"]["coordinates"]
 
-    poly.map! { |poly|
-      poly.map { |vert|
+    poly.map! do |poly|
+      poly.map do |vert|
         [vert[1], vert[0]]
-      }
-    }
-    poly.map! { |poly|
+      end
+    end
+    
+    poly.map! do |poly|
       earclip_polygon(poly)
-    }
+    end
 
     poly.flatten!(1)
 
     crimes = []
 
-    poly.each { |tri|
+    poly.each do |tri|
       polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
       crimes.push(JSON.parse(RestClient.post("https://data.police.uk/api/crimes-street/all-crime", poly: polygon.join(":"), date: "2021-01")))
         # ? add sleep?
-    }
+    end
     crimes.flatten!(1)
 
     crime_count = {}
 
-    crimes.each { |crime|
+    crimes.each do |crime|
       crime_count[crime["category"]] = crime_count.key?(crime["category"]) ? crime_count[crime["category"]] + 1 : 1
-    }
+    end
 
     #! Memoize crimes in db instead of sending back to user
     #! Send back poly to user for minimap however
@@ -46,18 +47,16 @@ class AnalyticsController < ApplicationController
     ear_vertex = []
     triangles = []
 
-    polygon = polygon.reverse()
+    polygon = polygon.reverse
 
-    points_count = polygon.length()
-    points_count.times { |i|
+    points_count = polygon.length
+    points_count.times do |i|
       prev_point = polygon[i - 1]
       point = polygon[i]
       next_index = (i + 1) % points_count
       next_point = polygon[next_index]
-      if _is_ear(prev_point, point, next_point, polygon)
-        ear_vertex.push(point)
-      end
-    }
+      ear_vertex.push(point) if _is_ear(prev_point, point, next_point, polygon)
+    end
 
     while not ear_vertex.empty? and points_count >= 3
       ear = ear_vertex.pop
@@ -79,38 +78,36 @@ class AnalyticsController < ApplicationController
             [prev_point, next_point, next_next_point, polygon],
         ]
 
-        groups.each { |group|
+        groups.each do |group|
           p = group[1]
           if _is_ear(*group)
-            if not ear_vertex.include? p
-              ear_vertex.append(p)
-            end
+            ear_vertex.append(p) unless ear_vertex.include? p
           elsif ear_vertex.include? p
             ear_vertex.delete(p)
           end
-        }
+        end
       end
     end
     triangles
-end
+  end
 
   def _is_ear(p1, p2, p3, polygon)
-    _contains_no_points(p1, p2, p3, polygon) and _is_convex(p1, p2, p3) and _triangle_area(p1[0], p1[1], p2[0], p2[1], p3[0], p3[1]) > 0
+    _contains_no_points(p1, p2, p3, polygon) and _is_convex(p1, p2, p3) and _triangle_area(p1[0], p1[1], p2[0], p2[1], p3[0], p3[1]).positive?
   end
 
   def _contains_no_points(p1, p2, p3, polygon)
-    polygon.each { |pn|
+    polygon.each do |pn|
       if [p1, p2, p3].include? pn
         next
       elsif _is_point_inside(pn, p1, p2, p3)
         return false
       end
-    }
+    end
     true
   end
 
   def _is_convex(prev, point, next_point)
-    _triangle_sum(prev[0], prev[1], point[0], point[1], next_point[0], next_point[1]) < 0
+    _triangle_sum(prev[0], prev[1], point[0], point[1], next_point[0], next_point[1]).negative?
   end
 
   def _is_point_inside(p, a, b, c)
