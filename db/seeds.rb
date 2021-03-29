@@ -5,3 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+
+
+Location.create([name: 'London', updated: Date.parse('01-02-2021')])
+
+location = Location.where(name: 'London').first
+
+CrimeEntry.create([location: location, month: Date.parse('01-02-2021'), name: 'a crime', value: '704'])
+
+
