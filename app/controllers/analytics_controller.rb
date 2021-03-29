@@ -10,7 +10,7 @@ class AnalyticsController < ApplicationController
         [vert[1], vert[0]]
       end
     end
-    
+
     poly.map! do |poly|
       earclip_polygon(poly)
     end
