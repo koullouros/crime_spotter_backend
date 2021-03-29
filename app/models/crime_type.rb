@@ -1,2 +1,0 @@
-class CrimeType < ApplicationRecord
-end
