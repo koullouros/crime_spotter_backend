@@ -31,7 +31,7 @@ class AnalyticsController < ApplicationController
     location_record.update({:updated => Date.parse(get_latest_crime_date)})
 
     # fetch the analytics for that location
-    // ! WE NEED TO GET MORE THAN ONE MONTH
+    # ! WE NEED TO GET MORE THAN ONE MONTH
     crime_stats = get_analytics(location, get_latest_crime_date[0..6])
 
     crime_stats.each do |key, value|
