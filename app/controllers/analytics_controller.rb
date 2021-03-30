@@ -1,15 +1,15 @@
 
 class AnalyticsController < ApplicationController
-  include AnalyticsHelper
+  include AnalyticsHelper, CrimeHelper
 
   def analytics
-    location = params[:city]
+    location = params[:city].downcase
     location_record = Location.where(name: location)
 
-    if location_record.blank? or location_record.first.updated < Date.new(Date.today.year, Date.today.month)
+    if location_record.blank? or location_record.first.updated < Date.parse(get_latest_crime_date)
       update_database(location)
     end
-
+    location_record = Location.where(name: location)
     crime_entries = CrimeEntry.where(location: location_record.first)
     render json: crime_entries
   end
@@ -23,26 +23,27 @@ class AnalyticsController < ApplicationController
 
     if location_record.blank?
       # if the location is not currently in the database, add it
-      location_record = Location.create([name: location, updated: Date.today])
+      location_record = Location.create([name: location, updated: Date.parse(get_latest_crime_date)])
     end
 
     location_record = location_record.first
 
-    location_record.update({:updated => Date.today})
+    location_record.update({:updated => Date.parse(get_latest_crime_date)})
 
     # fetch the analytics for that location
-    crime_stats = get_analytics(location)
+    // ! WE NEED TO GET MORE THAN ONE MONTH
+    crime_stats = get_analytics(location, get_latest_crime_date[0..6])
 
     crime_stats.each do |key, value|
       crime_entry = CrimeEntry.where(location: location_record, name: key)
 
       if crime_entry.blank?
         # if it doesn't exist, add it
-        crime_entry = CrimeEntry.create([location: location_record, name: key])
+        crime_entry = CrimeEntry.create([location: location_record, name: key, month: Date.parse(get_latest_crime_date)])
       end
       crime_entry = crime_entry.first
 
-      crime_entry.update({:value => value})
+      crime_entry.update({:value => value, month: Date.parse(get_latest_crime_date)})
       crime_entry.save
     end
 

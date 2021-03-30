@@ -2,9 +2,8 @@ Rails.application.routes.draw do
   resources :crime_entries
   resources :crime_types
   resources :locations
-  get 'analytics/analytics'
   get 'crime/crime' => 'crime#crime'
-  post 'analytics/city' => 'analytics#analytics'
+  get 'analytics/city' => 'analytics#analytics'
   get 'news/news'
   get 'home/home'
 

@@ -3,6 +3,11 @@ require 'json'
 
 module CrimeHelper
 
+  def get_latest_crime_date
+    resp = RestClient.get("https://data.police.uk/api/crime-last-updated")
+    JSON.parse(resp)["date"]
+  end
+
   def crime_helper(coordinates, date)
 
     resp = RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: coordinates, date: date)
@@ -34,4 +39,3 @@ module CrimeHelper
     crimes
   end
 end
-

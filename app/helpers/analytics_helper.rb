@@ -1,6 +1,6 @@
 module AnalyticsHelper
 
-  def get_analytics(location)
+  def get_analytics(location, date)
     poly = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{location}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
     poly = JSON.parse(poly)[0]['geojson']['coordinates']
 
@@ -20,7 +20,7 @@ module AnalyticsHelper
 
     poly.each do |tri|
       polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
-      crimes.push(JSON.parse(RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: polygon.join(':'), date: '2021-01')))
+      crimes.push(JSON.parse(RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: polygon.join(':'), date: date)))
       # ? add sleep?
     end
     crimes.flatten!(1)
