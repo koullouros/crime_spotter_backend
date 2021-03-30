@@ -2,6 +2,18 @@
 class AnalyticsController < ApplicationController
   include AnalyticsHelper
 
+  def analytics
+    location = params[:city]
+    location_record = Location.where(name: location)
+
+    if location_record.blank? or location_record.first.updated < Date.new(Date.today.year, Date.today.month)
+      update_database(location)
+    end
+
+    crime_entries = CrimeEntry.where(location: location_record.first)
+    render json: crime_entries
+  end
+
   def update_database(location)
     # update database for a given location
 
@@ -15,6 +27,8 @@ class AnalyticsController < ApplicationController
     end
 
     location_record = location_record.first
+
+    location_record.update({:updated => Date.today})
 
     # fetch the analytics for that location
     crime_stats = get_analytics(location)
