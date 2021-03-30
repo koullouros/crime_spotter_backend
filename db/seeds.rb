@@ -9,10 +9,10 @@
 
 
 
-Location.create([name: 'London', updated: Date.parse('01-02-2021')])
-
-location = Location.where(name: 'London').first
-
-CrimeEntry.create([location: location, month: Date.parse('01-02-2021'), name: 'a crime', value: '704'])
+# Location.create([name: 'london', updated: Date.parse('01-02-2021')])
+#
+# location = Location.where(name: 'london').first
+#
+# CrimeEntry.create([location: location, month: Date.parse('01-02-2021'), name: 'a crime', value: '704'])
 
 
