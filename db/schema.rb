@@ -13,24 +13,24 @@
 ActiveRecord::Schema.define(version: 2021_03_29_144217) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "crime_entries", force: :cascade do |t|
-    t.bigint "location_id", null: false
-    t.string "name", null: false
-    t.integer "value", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.date "month", null: false
-    t.index ["location_id"], name: "index_crime_entries_on_location_id"
+  create_table 'crime_entries', force: :cascade do |t|
+    t.bigint 'location_id', null: false
+    t.string 'name', null: false, unique: true
+    t.integer 'value', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.date 'month', null: false
+    t.index ['location_id'], name: 'index_crime_entries_on_location_id'
   end
 
-  create_table "locations", force: :cascade do |t|
-    t.string "name", null: false
-    t.date "updated", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table 'locations', force: :cascade do |t|
+    t.string 'name', null: false
+    t.date 'updated', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
-  add_foreign_key "crime_entries", "locations"
+  add_foreign_key 'crime_entries', 'locations'
 end
