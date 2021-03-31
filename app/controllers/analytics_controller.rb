@@ -42,7 +42,8 @@ class AnalyticsController < ApplicationController
       end
       crime_entry = crime_entry.first
 
-      crime_entry.update({ value: value, month: Date.parse(get_latest_crime_date) })
+      # to integer conversion changes null to 0
+      crime_entry.update({ value: value.to_i, month: Date.parse(get_latest_crime_date) })
       crime_entry.save
     end
 
