@@ -38,11 +38,11 @@ class AnalyticsController < ApplicationController
 
       if crime_entry.blank?
         # if it doesn't exist, add it
-        crime_entry = CrimeEntry.create([location: location_record, name: key, month: Date.parse(get_latest_crime_date)])
+        crime_entry = CrimeEntry.create([location: location_record, name: key, value: 0, month: Date.parse(get_latest_crime_date)])
       end
+
       crime_entry = crime_entry.first
 
-      # to integer conversion changes null to 0
       crime_entry.update({ value: value.to_i, month: Date.parse(get_latest_crime_date) })
       crime_entry.save
     end
