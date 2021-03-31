@@ -7,7 +7,7 @@ class AnalyticsController < ApplicationController
     location = params[:city].downcase
     location_record = Location.where(name: location)
 
-    if location_record.blank? or location_record.first.updated < Date.parse(get_latest_crime_date)
+    if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
       update_database(location)
     end
     location_record = Location.where(name: location)
@@ -27,7 +27,7 @@ class AnalyticsController < ApplicationController
 
     location_record = location_record.first
 
-    location_record.update({:updated => Date.parse(get_latest_crime_date)})
+    location_record.update({ updated: Date.parse(get_latest_crime_date) })
 
     # fetch the analytics for that location
     # ! WE NEED TO GET MORE THAN ONE MONTH
@@ -42,7 +42,7 @@ class AnalyticsController < ApplicationController
       end
       crime_entry = crime_entry.first
 
-      crime_entry.update({:value => value, month: Date.parse(get_latest_crime_date)})
+      crime_entry.update({ value: value, month: Date.parse(get_latest_crime_date) })
       crime_entry.save
     end
 
