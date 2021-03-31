@@ -17,11 +17,16 @@ module AnalyticsHelper
     poly.flatten!(1)
 
     crimes = []
-
+    batch = 0
     poly.each do |tri|
       polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
       begin
         crimes.push(JSON.parse(RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: polygon.join(':'), date: date)))
+        batch += 1
+        if batch == 15
+          sleep(0.4)
+          batch = 0
+        end
       rescue RestClient::BadRequest
         puts 'Bad Polygon'
       end
