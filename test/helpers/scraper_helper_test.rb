@@ -11,7 +11,7 @@ class ScraperHelperTest < ActionView::TestCase
   end
 
   test 'Should return 10 articles (google_scraper)' do
-    #Note: 10 articles may not be returned in website use due to query being too specific
+    # 10 articles may not be returned in website use due to query being too specific
 
     articles = google_scraper('test')
 
