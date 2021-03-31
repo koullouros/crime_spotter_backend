@@ -1,4 +1,4 @@
 class CrimeEntry < ApplicationRecord
+  validates :location, :name, :value, :month, presence: true
   belongs_to :location
-  has_one :crime_type
 end
