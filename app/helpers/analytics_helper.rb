@@ -22,6 +22,7 @@ module AnalyticsHelper
       polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
       begin
         crimes.push(JSON.parse(RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: polygon.join(':'), date: date)))
+        sleep 0.01
       rescue RestClient::BadRequest
         puts 'Bad Polygon'
       end
