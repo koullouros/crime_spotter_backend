@@ -1,6 +1,7 @@
 
 class AnalyticsController < ApplicationController
-  include AnalyticsHelper, CrimeHelper
+  include CrimeHelper
+  include AnalyticsHelper
 
   def analytics
     location = params[:city].downcase
@@ -17,9 +18,7 @@ class AnalyticsController < ApplicationController
   def update_database(location)
     # update database for a given location
 
-    #location = params[:city]
     location_record = Location.where(name: location)
-
 
     if location_record.blank?
       # if the location is not currently in the database, add it

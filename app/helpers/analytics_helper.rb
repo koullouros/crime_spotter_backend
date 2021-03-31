@@ -20,8 +20,11 @@ module AnalyticsHelper
 
     poly.each do |tri|
       polygon = tri.map { |vert| "#{vert[0]},#{vert[1]}" }
-      crimes.push(JSON.parse(RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: polygon.join(':'), date: date)))
-      # ? add sleep?
+      begin
+        crimes.push(JSON.parse(RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: polygon.join(':'), date: date)))
+      rescue RestClient::BadRequest
+        puts 'Bad Polygon'
+      end
     end
     crimes.flatten!(1)
 
@@ -34,7 +37,7 @@ module AnalyticsHelper
     #! Memoize crimes in db instead of sending back to user
     #! Send back poly to user for minimap however
     #TODO Think of more analytics options
-    return crime_count
+    crime_count
   end
 
   def earclip_polygon(polygon)

@@ -4,8 +4,8 @@ require 'json'
 module CrimeHelper
 
   def get_latest_crime_date
-    resp = RestClient.get("https://data.police.uk/api/crime-last-updated")
-    JSON.parse(resp)["date"]
+    resp = RestClient.get('https://data.police.uk/api/crime-last-updated')
+    JSON.parse(resp)['date']
   end
 
   def crime_helper(coordinates, date)
