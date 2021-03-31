@@ -17,17 +17,17 @@ ActiveRecord::Schema.define(version: 2021_03_29_144217) do
 
   create_table "crime_entries", force: :cascade do |t|
     t.bigint "location_id", null: false
-    t.string "name"
-    t.integer "value"
+    t.string "name", null: false
+    t.integer "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.date "month"
+    t.date "month", null: false
     t.index ["location_id"], name: "index_crime_entries_on_location_id"
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "name"
-    t.date "updated"
+    t.string "name", null: false
+    t.date "updated", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
