@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :crime_entries
-  resources :crime_types
   resources :locations
   get 'crime/crime' => 'crime#crime'
   get 'analytics/city' => 'analytics#analytics'
