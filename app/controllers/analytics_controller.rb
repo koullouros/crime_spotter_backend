@@ -8,7 +8,9 @@ class AnalyticsController < ApplicationController
     location_record = Location.where(name: location)
 
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
-      update_database(location)
+      Thread.new do
+        update_database(location)
+      end
     end
     location_record = Location.where(name: location)
     crime_entries = CrimeEntry.where(location: location_record.first)
