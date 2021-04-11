@@ -31,16 +31,15 @@ class AnalyticsController < ApplicationController
     location_record = location_record.first
 
     # fetch the analytics for that location
-    # ! WE NEED TO GET MORE THAN ONE MONTH
 
     location_updated = location_record["updated"]
     month_diff = (date.year * 12 + date.month) - (location_updated.year * 12 + location_updated.month)
     month_diff = month_diff == 0 ? 12 : month_diff
 
     month_diff.times do |i|
-      crime_stats = get_analytics(location, (date << i-1).to_s[0..6])
+      crime_stats = get_analytics(location, (date << i).to_s[0..6])
       crime_stats.each do |key, value|
-        CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i-1])
+        CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i])
       end
     end
 
