@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :crime_entries
   resources :locations
   get 'crime/crime' => 'crime#crime'
-  get 'analytics/city' => 'analytics#analytics'
+  get 'statistics/city' => 'analytics#analytics'
   get 'news/news'
   get 'home/home'
 

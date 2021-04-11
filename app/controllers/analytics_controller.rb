@@ -4,7 +4,7 @@ class AnalyticsController < ApplicationController
   include AnalyticsHelper
 
   def analytics
-    location = params[:city].downcase
+    location = params[:name].downcase
     location_record = Location.where(name: location)
 
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
