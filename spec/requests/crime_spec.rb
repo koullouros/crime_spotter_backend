@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
-RSpec.describe '/crime' do
+RSpec.describe '/crime', type: :request do
   let(:successful_request) do
     # Produces a Lambda function containing a successful request
     lambda do

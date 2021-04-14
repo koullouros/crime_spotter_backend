@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests the schema is being enforced on creation of locations
 RSpec.describe Location, type: :model do
   # Create valid location
   subject do
