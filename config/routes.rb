@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :crime_entries
-  resources :locations
+  # resources :crime_entries
+  # resources :locations
   get 'crime/crime' => 'crime#crime'
   get 'statistics/city' => 'analytics#analytics'
   mount ActionCable.server => '/news'
