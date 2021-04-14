@@ -10,7 +10,7 @@ module CrimeHelper
 
   def crime_helper(coordinates, date)
 
-    resp = RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: coordinates, date: date)
+    resp = RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: coordinates, date: get_latest_crime_date[0..6])
     json = JSON.parse(resp.body)
 
     crimes = []

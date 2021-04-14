@@ -32,7 +32,6 @@ module AnalyticsHelper
       end
     end
     crimes.flatten!(1)
-
     crime_count = {}
 
     crimes.each do |crime|

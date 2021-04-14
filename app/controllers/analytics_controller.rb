@@ -4,48 +4,46 @@ class AnalyticsController < ApplicationController
   include AnalyticsHelper
 
   def analytics
-    location = params[:city].downcase
+    location = params[:name].downcase
     location_record = Location.where(name: location)
 
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
-      update_database(location)
+      Thread.new do
+        update_database(location, Date.parse(get_latest_crime_date))
+      end
     end
+
     location_record = Location.where(name: location)
     crime_entries = CrimeEntry.where(location: location_record.first)
     render json: crime_entries
   end
 
-  def update_database(location)
+  def update_database(location, date)
     # update database for a given location
 
     location_record = Location.where(name: location)
 
     if location_record.blank?
       # if the location is not currently in the database, add it
-      location_record = Location.create([name: location, updated: Date.parse(get_latest_crime_date)])
+      location_record = Location.create([name: location, updated: date])
     end
 
     location_record = location_record.first
 
-    location_record.update({ updated: Date.parse(get_latest_crime_date) })
-
     # fetch the analytics for that location
-    # ! WE NEED TO GET MORE THAN ONE MONTH
-    crime_stats = get_analytics(location, get_latest_crime_date[0..6])
 
-    crime_stats.each do |key, value|
-      crime_entry = CrimeEntry.where(location: location_record, name: key)
+    location_updated = location_record["updated"]
+    month_diff = (date.year * 12 + date.month) - (location_updated.year * 12 + location_updated.month)
+    month_diff = month_diff == 0 ? 12 : month_diff
 
-      if crime_entry.blank?
-        # if it doesn't exist, add it
-        crime_entry = CrimeEntry.create([location: location_record, name: key, value: 0, month: Date.parse(get_latest_crime_date)])
+    month_diff.times do |i|
+      crime_stats = get_analytics(location, (date << i).to_s[0..6])
+      crime_stats.each do |key, value|
+        CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i])
       end
-
-      crime_entry = crime_entry.first
-
-      crime_entry.update({ value: value.to_i, month: Date.parse(get_latest_crime_date) })
-      crime_entry.save
     end
+
+    location_record.update({ updated: date })
 
   end
 
