@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Location, type: :model do
   # Create valid location
   subject do
-    described_class.new(name: 'Anything',
+    described_class.new(name: 'Location1',
                         updated: '2021-02-01')
   end
 

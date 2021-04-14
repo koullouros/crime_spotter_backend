@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Crimes' do
+RSpec.describe '/crime' do
   let(:successful_request) do
     # Produces a Lambda function containing a successful request
     lambda do
@@ -10,7 +10,7 @@ RSpec.describe 'Crimes' do
     end
   end
 
-  let(:failed_request) do
+  let(:invalid_request) do
     # This Lambda function contains an invalid request
     lambda do
       get '/crime/crime?poly=??'
@@ -44,7 +44,7 @@ RSpec.describe 'Crimes' do
 
   context 'when a successful response is not received' do
     it 'should raise an error' do
-      expect { failed_request.call }.to raise_error(RestClient::NotFound)
+      expect { invalid_request.call }.to raise_error(RestClient::NotFound)
     end
   end
 end
