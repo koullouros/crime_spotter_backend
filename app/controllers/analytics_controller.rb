@@ -37,6 +37,7 @@ class AnalyticsController < ApplicationController
     month_diff = month_diff == 0 ? 12 : month_diff
 
     month_diff.times do |i|
+      GC.start
       crime_stats = get_analytics(location, (date << i).to_s[0..6])
       crime_stats.each do |key, value|
         CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i])
