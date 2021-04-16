@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests the schema is being enforced on creation of crime entries
 RSpec.describe CrimeEntry, type: :model do
   # Create valid location
   location = Location.new(name: 'Anything',
