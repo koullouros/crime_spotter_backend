@@ -5,15 +5,16 @@ class AnalyticsController < ApplicationController
 
   def analytics
     location = params[:name].downcase
-    location_record = Location.where(name: location)
+    location_name = get_city_poly_name(location)
+    location_record = Location.where(name: location_name)
 
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
       Thread.new do
-        update_database(location, Date.parse(get_latest_crime_date))
+        update_database(location_name, Date.parse(get_latest_crime_date))
       end
     end
 
-    location_record = Location.where(name: location)
+    location_record = Location.where(name: location_name)
     crime_entries = CrimeEntry.where(location: location_record.first)
     render json: crime_entries
   end

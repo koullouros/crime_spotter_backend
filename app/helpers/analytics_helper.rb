@@ -29,6 +29,11 @@ module AnalyticsHelper
         end
       rescue RestClient::BadRequest
         puts 'Bad Polygon'
+      rescue RestClient::InternalServerError
+        sleep(0.2)
+        retry
+      rescue RestClient::ServiceUnavailable
+        puts tri
       end
     end
     crimes.flatten!(1)
@@ -42,6 +47,11 @@ module AnalyticsHelper
     #! Send back poly to user for minimap however
     #TODO Think of more analytics options
     crime_count
+  end
+
+  def get_city_poly_name(location)
+    res = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{location}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
+    return JSON.parse(res)[0]["display_name"]
   end
 
   def earclip_polygon(polygon)
