@@ -5,7 +5,6 @@ RSpec.describe CrimeEntriesController, type: :controller do
   let(:valid_attributes) do
     location = Location.new(name: 'Location1',
                             updated: '2021-02-01')
-
     { name: 'Crime1',
       value: 50,
       month: '2021-02-01',
