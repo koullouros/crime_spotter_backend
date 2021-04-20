@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # resources :locations
   get 'crime/crime' => 'crime#crime'
   get 'statistics/city' => 'analytics#analytics'
+  get 'autocomplete' => 'crime#autocomplete'
   mount ActionCable.server => '/news'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
