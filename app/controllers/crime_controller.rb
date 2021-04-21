@@ -3,15 +3,14 @@ class CrimeController < ApplicationController
 
   def crime
     coordinates = request.query_parameters['poly']
-    date = request.query_parameters['date']
 
-    render json: crime_helper(coordinates, date)
+    render json: crime_helper(coordinates)
   end
 
   def autocomplete
-    suggestion = Rails.cache.fetch(params[:q], expires_in: 2.days) {
+    suggestion = Rails.cache.fetch(params[:q], expires_in: 2.days) do
       JSON.parse(RestClient.get("https://autocomplete.search.hereapi.com/v1/autocomplete?q=#{params[:q]}&apiKey=" + ENV["HERE_API_KEY"]))
-    }
+    end
     render json: suggestion
   end
 
