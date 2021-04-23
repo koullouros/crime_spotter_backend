@@ -3,7 +3,7 @@ class AnalyticsController < ApplicationController
   include CrimeHelper
   include AnalyticsHelper
 
-  def analytics
+  def analytics(location)
     location = params[:name].downcase
     location_name = get_city_poly_name(location)
     location_record = Location.where(name: location_name)
@@ -16,6 +16,7 @@ class AnalyticsController < ApplicationController
 
     location_record = Location.where(name: location_name)
     crime_entries = CrimeEntry.where(location: location_record.first)
+
     render json: crime_entries
   end
 
