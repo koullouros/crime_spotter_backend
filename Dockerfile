@@ -8,4 +8,4 @@ RUN gem install rails bundler
 
 RUN bundle install
 
-CMD rails s
+CMD rails s -b 0.0.0.0
