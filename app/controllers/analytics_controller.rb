@@ -10,7 +10,7 @@ class AnalyticsController < ApplicationController
 
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
       Thread.new do
-        update_database(location_name, Date.parse(get_latest_crime_date))
+        update_database(location, location_name, Date.parse(get_latest_crime_date))
       end
     end
 
@@ -19,14 +19,14 @@ class AnalyticsController < ApplicationController
     render json: crime_entries
   end
 
-  def update_database(location, date)
+  def update_database(location, long_name, date)
     # update database for a given location
 
-    location_record = Location.where(name: location)
+    location_record = Location.where(name: long_name)
 
     if location_record.blank?
       # if the location is not currently in the database, add it
-      location_record = Location.create([name: location, updated: date])
+      location_record = Location.create([name: long_name, updated: date])
     end
 
     location_record = location_record.first
