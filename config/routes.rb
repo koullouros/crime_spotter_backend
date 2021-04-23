@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   # post 'log_visit/get_visits' => 'log_visit#get_visits'
   post 'log_visit/get_visit_count' => 'log_visit#get_visit_count'
 
+  post 'log_search/log_search' => 'log_search#log_search'
+  post 'log_search/get_search_term_count' => 'log_search#get_search_term_count'
+
   get 'autocomplete' => 'crime#autocomplete'
   mount ActionCable.server => '/news'
 
