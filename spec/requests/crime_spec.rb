@@ -4,7 +4,7 @@ RSpec.describe '/crime', type: :request do
   let(:successful_request) do
     # Produces a Lambda function containing a successful request
     lambda do
-      get '/crime/crime?poly=52.268,0.543:52.794,0.238:52.130,0.478&date=2021-01'
+      get '/crime/crime?poly=52.268,0.543:52.794,0.238:52.130,0.478'
     end
   end
 
@@ -29,12 +29,12 @@ RSpec.describe '/crime', type: :request do
       crimes.each do |crime|
         # Check each component of the crime
         # outcome status and date aren't checked as they are nil quite often
-        assert !crime['category'].nil?
-        assert !crime['crime_date'].nil?
-        assert !crime['street'].nil?
-        assert !crime['extra_info'].nil?
-        assert !crime['latitude'].nil?
-        assert !crime['longitude'].nil?
+        expect(crime['category']).not_to be_nil
+        expect(crime['crime_date']).not_to be_nil
+        expect(crime['street']).not_to be_nil
+        expect(crime['extra_info']).not_to be_nil
+        expect(crime['latitude']).not_to be_nil
+        expect(crime['longitude']).not_to be_nil
 
       end
     end

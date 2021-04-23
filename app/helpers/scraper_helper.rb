@@ -5,6 +5,8 @@ module ScraperHelper
 
   def google_scraper(query)
 
+    return nil if query.nil?
+
     html = URI.open("https://www.google.com/search?q=#{query}&tbm=nws&source=lnt&tbs=sbd:1")
 
     response = Nokogiri::HTML(html)
