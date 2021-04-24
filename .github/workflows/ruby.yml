@@ -10,9 +10,7 @@ env:
   RUBY_VERSION: 3.0.1
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: ""
-  POSTGRES_DB: postgres
-
-
+  POSTGRES_DB: crime_spotter_backend_test
 
 name: Ruby
 
