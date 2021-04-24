@@ -1,7 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe "LogSearches", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+  let(:submit_search_term) do
+    lambda do
+      post '/log_search/log_search', params: {search_term: 'test_search_term'}
+    end
+  end
+
+  let(:get_search_term_count) do
+    lambda do
+      post '/log_search/get_search_term_count', params: {search_term: 'test_search_term'}
+    end
+  end
+
+  context "POST /log_search/log_search" do
+    it 'should add term to database' do
+      submit_search_term.call
+      entry = Search.find_by(term: 'test_search_term')
+
+      expect(entry).not_to be_nil
+      expect(entry.term).to eq('test_search_term')
+    end
+  end
+
+  context "POST /log_search/get_search_term_count" do
+    it 'should get correct search term count from database' do
+      submit_search_term.call
+      get_search_term_count.call
+
+      expect(response.status).to eq(200)
+      expect(response.body).to eq("1")
+    end
   end
 end
