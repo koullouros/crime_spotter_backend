@@ -10,6 +10,6 @@ RSpec.describe Visit, type: :model do
   describe 'validations' do
     it { should validate_presence_of(:page) }
     it { should validate_presence_of(:ip_address) }
-    it { should validate_presence_of(:loccation) }
+    it { should validate_presence_of(:location) }
   end
 end
