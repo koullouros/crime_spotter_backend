@@ -10,6 +10,6 @@ class LogVisitController < ApplicationController
 
   def get_visit_count
     count = Visit.where(page: params[:page]).count
-    render :json => count
+    render json: count
   end
 end
