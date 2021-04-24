@@ -31,12 +31,13 @@ jobs:
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
     - name: Install postgres client
-      run: sudo apt-get install libpq-dev
+      run: |
+        sudo apt-get install libpq-dev
+        sudo apt-get install postgresql-11
     - name: Install dependencies
       run: |
         gem install bundler
         bundler install
-        su - postgres
     - name: Create database
       run: |
         bundler exec rails db:create RAILS_ENV=test
