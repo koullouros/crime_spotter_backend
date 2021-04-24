@@ -15,16 +15,18 @@ RSpec.describe '/analytics', type: :request do
     end
   end
 
-  context 'when a successful response is received' do
-    it 'should provide a 200 status code' do
-      successful_request.call
-      expect(response.status).to eq(200)
+  describe 'GET /statistics/city' do
+    context 'when valid parameters are used' do
+      it 'should provide a 200 status code' do
+        successful_request.call
+        expect(response.status).to eq(200)
+      end
     end
-  end
 
-  context 'when a successful response is not received' do
-    it 'should raise an error #TODO: CURRENTLY DOES NOT WORK AS VALIDATION DOES NOT EXIST#' do
-      # expect { invalid_request.call }.to raise_error(RestClient::NotFound)
+    context 'when invalid parameters are used' do
+      it 'should raise an error #TODO: CURRENTLY DOES NOT WORK AS VALIDATION DOES NOT EXIST#' do
+        # expect { invalid_request.call }.to raise_error(RestClient::NotFound)
+      end
     end
   end
 end

@@ -15,34 +15,36 @@ RSpec.describe '/crime', type: :request do
     end
   end
 
-  context 'when a successful response is received' do
-    it 'should provide a 200 status code' do
-      successful_request.call
-      expect(response.status).to eq(200)
-    end
+  describe 'GET /crime/crime' do
+    context 'when valid parameters are used' do
+      it 'should provide a 200 status code' do
+        successful_request.call
+        expect(response.status).to eq(200)
+      end
 
-    it 'should contain all the required information' do
-      successful_request.call
+      it 'should contain all the required information' do
+        successful_request.call
 
-      crimes = JSON.parse(response.body)
+        crimes = JSON.parse(response.body)
 
-      crimes.each do |crime|
-        # Check each component of the crime
-        # outcome status and date aren't checked as they are nil quite often
-        expect(crime['category']).not_to be_nil
-        expect(crime['crime_date']).not_to be_nil
-        expect(crime['street']).not_to be_nil
-        expect(crime['extra_info']).not_to be_nil
-        expect(crime['latitude']).not_to be_nil
-        expect(crime['longitude']).not_to be_nil
+        crimes.each do |crime|
+          # Check each component of the crime
+          # outcome status and date aren't checked as they are nil quite often
+          expect(crime['category']).not_to be_nil
+          expect(crime['crime_date']).not_to be_nil
+          expect(crime['street']).not_to be_nil
+          expect(crime['extra_info']).not_to be_nil
+          expect(crime['latitude']).not_to be_nil
+          expect(crime['longitude']).not_to be_nil
 
+        end
       end
     end
-  end
 
-  context 'when a successful response is not received' do
-    it 'should raise an error' do
-      expect { invalid_request.call }.to raise_error(RestClient::NotFound)
+    context 'when invalid parameters are used' do
+      it 'should raise an error' do
+        expect { invalid_request.call }.to raise_error(RestClient::NotFound)
+      end
     end
   end
 end
