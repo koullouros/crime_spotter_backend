@@ -31,15 +31,14 @@ jobs:
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
     - name: Install postgres client
-      run: |
-        sudo apt-get update
-        sudo apt-get install libpq-dev postgresql postgresql-contrib
+      run: sudo apt-get install libpq-dev
     - name: Install dependencies
       run: |
         gem install bundler
         bundler install
     - name: Create database
       run: |
+        sudo systemctl start postgresql
         bundler exec rails db:create RAILS_ENV=test
         bundler exec rails db:migrate RAILS_ENV=test
     - name: Run tests
