@@ -28,13 +28,9 @@ jobs:
       - name: Install Ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 3.0.1
       - name: Install Bundler
-        run: gem install bundler:2.1.4
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.2.0
+        run: gem install bundler
       - name: Setup the Rails application
         env:
           RAILS_ENV: test
