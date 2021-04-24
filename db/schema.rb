@@ -13,39 +13,39 @@
 ActiveRecord::Schema.define(version: 2021_04_23_191949) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'crime_entries', force: :cascade do |t|
-    t.bigint 'location_id', null: false
-    t.string 'name', null: false
-    t.integer 'value', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.date 'month'
-    t.index ['location_id'], name: 'index_crime_entries_on_location_id'
-    t.index ['name', 'month'], name: 'index_crime_entries_on_name_and_month', unique: true
+  create_table "crime_entries", force: :cascade do |t|
+    t.bigint "location_id", null: false
+    t.string "name"
+    t.integer "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.date "month"
+    t.index ["location_id"], name: "index_crime_entries_on_location_id"
+    t.index ["name", "month"], name: "index_crime_entries_on_name_and_month", unique: true
   end
 
-  create_table 'locations', force: :cascade do |t|
-    t.string 'name', null: false, unique: true
-    t.date 'updated', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.date "updated"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table 'searches', force: :cascade do |t|
-    t.string 'term', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "searches", force: :cascade do |t|
+    t.string "term"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table 'visits', force: :cascade do |t|
-    t.string 'page', null: false
-    t.string 'ip_address', null: false
-    t.string 'location', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "visits", force: :cascade do |t|
+    t.string "page"
+    t.string "ip_address"
+    t.string "location"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key 'crime_entries', 'locations'
+  add_foreign_key "crime_entries", "locations"
 end
