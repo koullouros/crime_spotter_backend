@@ -20,11 +20,11 @@ jobs:
  rspec-test:
   name: RSpec
   runs-on: ubuntu-18.04
-#   services:
-#     postgres:
-#       image: postgres:latest
-#       ports:
-#       - 5432:5432
+  services:
+    postgres:
+      image: postgres:latest
+      ports:
+      - 5432:5432
   steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
