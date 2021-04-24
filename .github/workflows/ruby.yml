@@ -32,6 +32,7 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
     - name: Install postgres client
       run: |
+        sudo apt-get update
         sudo apt-get install libpq-dev
         sudo apt-get install postgresql-11
     - name: Install dependencies
