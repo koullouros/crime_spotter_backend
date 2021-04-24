@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/analytics', type: :request do
+RSpec.describe 'Analytics', type: :request do
   let(:successful_request) do
     # Produces a Lambda function containing a successful request
     lambda do

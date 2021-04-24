@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/crime', type: :request do
+RSpec.describe 'Crime', type: :request do
   let(:successful_request) do
     # Produces a Lambda function containing a successful request
     lambda do
