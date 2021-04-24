@@ -12,13 +12,9 @@ env:
   POSTGRES_PASSWORD: ""
   POSTGRES_DB: crime_spotter_backend_test
 
-name: Ruby
+name: Rails tests
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push,pull_request]
     
 jobs:
  rspec-test:
@@ -40,6 +36,7 @@ jobs:
       run: |
         gem install bundler
         bundler install
+        su - postgres
     - name: Create database
       run: |
         bundler exec rails db:create RAILS_ENV=test
