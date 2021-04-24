@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_191949) do
 
   create_table "crime_entries", force: :cascade do |t|
     t.bigint "location_id", null: false
-    t.string "name"
-    t.integer "value"
+    t.string "name", null: false
+    t.integer "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.date "month"
@@ -27,22 +27,22 @@ ActiveRecord::Schema.define(version: 2021_04_23_191949) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "name"
-    t.date "updated"
+    t.string "name", null: false
+    t.date "updated", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "searches", force: :cascade do |t|
-    t.string "term"
+    t.string "term", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "visits", force: :cascade do |t|
-    t.string "page"
-    t.string "ip_address"
-    t.string "location"
+    t.string "page", null: false
+    t.string "ip_address", null: false
+    t.string "location", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
