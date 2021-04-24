@@ -33,8 +33,7 @@ jobs:
     - name: Install postgres client
       run: |
         sudo apt-get update
-        sudo apt-get install libpq-dev
-        sudo apt-get install postgresql-11
+        sudo apt-get install libpq-dev postgresql postgresql-contrib
     - name: Install dependencies
       run: |
         gem install bundler
