@@ -26,7 +26,7 @@ module CrimeSpotterBackend
     config.load_defaults 6.1
     
     config.after_initialize do
-      Delayed::Job.scaler = :local
+      Rush::Box.new[Rails.root].bash("bin/delayed_job start --sleep-delay 10000", background: true)
     end    
     config.action_cable.mount_path = '/news'
     
