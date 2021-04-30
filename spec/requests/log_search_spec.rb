@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'LogSearches', type: :request do
   let(:submit_search_term) do
     lambda do
-      post '/statistics/log_search', params: { search_term: 'test_search_term' }
+      Search.create(term: 'test_search_term')
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe 'LogSearches', type: :request do
         get_search_count.call
 
         expect(response.status).to eq(200)
-        expect(response.body).to eq('1')
+        expect(response.body).to eq('{"count":1}')
       end
     end
   end

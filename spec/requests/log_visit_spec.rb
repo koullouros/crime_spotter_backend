@@ -30,7 +30,7 @@ RSpec.describe 'LogVisits', type: :request do
         get_visit_count.call
 
         expect(response.status).to eq(200)
-        expect(response.body).to eq('1')
+        expect(response.body).to eq('{"count":1}')
       end
     end
   end
