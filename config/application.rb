@@ -25,6 +25,9 @@ module CrimeSpotterBackend
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
     
+    config.after_initialize do
+      Delayed::Job.scaler = :local
+    end    
     config.action_cable.mount_path = '/news'
     
     config.action_cable.url = 'wss://crime-spotter-backend.herokuapp.com/news'

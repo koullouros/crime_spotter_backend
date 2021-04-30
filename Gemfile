@@ -47,3 +47,4 @@ gem 'rexml'
 gem 'whenever'
 gem "delayed_job_active_record"
 gem "workless", "~> 2.2.0"
+gem "daemons"
