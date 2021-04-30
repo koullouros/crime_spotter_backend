@@ -7,6 +7,6 @@ class LogSearchController < ApplicationController
     count = Rails.cache.fetch("internal:search_count", expires_in: 15.minutes) do
       Search.all.count
     end
-    render json: count
+    render json: { count: count }
   end
 end

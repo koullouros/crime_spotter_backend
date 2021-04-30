@@ -7,6 +7,6 @@ class LogVisitController < ApplicationController
     count = Rails.cache.fetch("internal:visit_count", expires_in: 15.minutes) do
       Visit.where(created_at: Time.current.all_day).count
     end
-    render json: count
+    render json: { count: count }
   end
 end
