@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'LogSearches', type: :request do
   let(:submit_search_term) do
     lambda do
-      post '/statistics/log_search', params: { search_term: 'test_search_term' }
+      Search.create(term: 'test_search_term')
     end
   end
 

@@ -5,6 +5,7 @@ class AnalyticsController < ApplicationController
 
   def analytics
     location = params[:name].downcase
+    Search.create(term: params[:name])
     location_name = get_city_poly_name(location)
     location_record = Location.where(name: location_name)
 
