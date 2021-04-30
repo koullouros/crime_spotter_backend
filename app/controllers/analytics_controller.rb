@@ -36,7 +36,7 @@ class AnalyticsController < ApplicationController
 
     location_updated = location_record["updated"]
     month_diff = (date.year * 12 + date.month) - (location_updated.year * 12 + location_updated.month)
-    month_diff = month_diff == 0 ? 12 : month_diff
+    month_diff = month_diff == 0 ? 1 : month_diff
 
     month_diff.times do |i|
       GC.start

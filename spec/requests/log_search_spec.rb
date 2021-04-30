@@ -3,17 +3,17 @@ require 'rails_helper'
 RSpec.describe 'LogSearches', type: :request do
   let(:submit_search_term) do
     lambda do
-      post '/log_search/log_search', params: { search_term: 'test_search_term' }
+      post '/statistics/log_search', params: { search_term: 'test_search_term' }
     end
   end
 
-  let(:get_search_term_count) do
+  let(:get_search_count) do
     lambda do
-      post '/log_search/get_search_term_count', params: { search_term: 'test_search_term' }
+      get '/statistics/get_search_count'
     end
   end
 
-  describe 'POST /log_search/log_search' do
+  describe 'POST /statistics/log_search' do
     context 'with a valid search term' do
       it 'should add term to database' do
         submit_search_term.call
@@ -25,11 +25,11 @@ RSpec.describe 'LogSearches', type: :request do
     end
   end
 
-  describe 'POST /log_search/get_search_term_count' do
-    context 'with a valid search term' do
-      it 'should get correct search term count from database' do
+  describe 'GET /statistics/get_search_count' do
+    context 'None' do
+      it 'should get correct search count from database' do
         submit_search_term.call
-        get_search_term_count.call
+        get_search_count.call
 
         expect(response.status).to eq(200)
         expect(response.body).to eq('1')
