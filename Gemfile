@@ -45,3 +45,5 @@ gem 'nokogiri'
 gem 'rest-client'
 gem 'rexml'
 gem 'whenever'
+gem "delayed_job_active_record"
+gem "workless", "~> 2.2.0"

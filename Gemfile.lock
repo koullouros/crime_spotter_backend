@@ -69,14 +69,27 @@ GEM
     chronic (0.10.2)
     concurrent-ruby (1.1.8)
     crass (1.0.6)
+    delayed_job (4.1.9)
+      activesupport (>= 3.0, < 6.2)
+    delayed_job_active_record (4.1.6)
+      activerecord (>= 3.0, < 6.2)
+      delayed_job (>= 3.0, < 5)
     diff-lcs (1.4.4)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.6)
     erubi (1.10.0)
+    erubis (2.7.0)
+    excon (0.81.0)
     ffi (1.15.0-x64-mingw32)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    heroics (0.1.2)
+      erubis (~> 2.0)
+      excon
+      moneta
+      multi_json (>= 1.9.2)
+      webrick
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -94,7 +107,9 @@ GEM
     mime-types-data (3.2021.0225)
     mini_mime (1.0.3)
     minitest (5.14.4)
+    moneta (1.0.0)
     msgpack (1.4.2)
+    multi_json (1.15.0)
     netrc (0.11.0)
     nio4r (2.5.7)
     nokogiri (1.11.2-x64-mingw32)
@@ -102,6 +117,10 @@ GEM
     nokogiri (1.11.2-x86_64-linux)
       racc (~> 1.4)
     pg (1.2.3)
+    platform-api (3.3.0)
+      heroics (~> 0.1.1)
+      moneta (~> 1.0.0)
+      rate_throttle_client (~> 0.1.0)
     puma (5.2.2)
       nio4r (~> 2.0)
     racc (1.5.2)
@@ -135,6 +154,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 1.0)
     rake (13.0.3)
+    rate_throttle_client (0.1.2)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
@@ -164,6 +184,9 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
+    rush (0.6.8)
+      session
+    session (3.2.0)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
     sprockets (4.0.2)
@@ -181,11 +204,17 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
+    webrick (1.7.0)
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    workless (2.2.0)
+      delayed_job (>= 2.0.7)
+      platform-api
+      rails
+      rush
     zeitwerk (2.4.2)
 
 PLATFORMS
@@ -196,6 +225,7 @@ DEPENDENCIES
   action-cable-testing
   bootsnap (>= 1.4.4)
   byebug
+  delayed_job_active_record
   dotenv
   nokogiri
   pg (~> 1.1)
@@ -207,6 +237,7 @@ DEPENDENCIES
   shoulda-matchers
   tzinfo-data
   whenever
+  workless (~> 2.2.0)
 
 RUBY VERSION
    ruby 3.0.1p64

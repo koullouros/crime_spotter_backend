@@ -12,9 +12,10 @@ class AnalyticsController < ApplicationController
 
     # if location hasn't been updated recently, update location
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
-      Thread.new do
-        update_database(location, location_name, Date.parse(get_latest_crime_date))
-      end
+      # Thread.new do
+      #   update_database(location, location_name, Date.parse(get_latest_crime_date))
+      # end
+      AnalyticsJob.new.analyse(location, location_name, Date.parse(get_latest_crime_date))
     end
 
     location_record = Location.where(name: location_name)
@@ -45,16 +46,7 @@ class AnalyticsController < ApplicationController
       crime_stats = get_analytics(location, (date << i).to_s[0..6])
 
       crime_stats.each do |key, value|
-        crime_entry = CrimeEntry.where(location: location_record, name: key)
-
-        if crime_entry.blank?
-          # if it doesn't exist, add it
-          crime_entry = CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i])
-        end
-
-        crime_entry = crime_entry.first
-
-        crime_entry.update({ value: value.to_i, month: Date.parse(get_latest_crime_date) })
+        CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i])
       end
     end
 
