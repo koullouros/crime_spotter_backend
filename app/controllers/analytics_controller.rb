@@ -4,10 +4,12 @@ class AnalyticsController < ApplicationController
   include AnalyticsHelper
 
   def analytics
+    # Responsible for returning analytics to front end given a city
     location = params[:name].downcase
     location_name = get_city_poly_name(location)
     location_record = Location.where(name: location_name)
 
+    # if location hasn't been updated recently, update location
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
       Thread.new do
         update_database(location, location_name, Date.parse(get_latest_crime_date))
@@ -22,7 +24,6 @@ class AnalyticsController < ApplicationController
 
   def update_database(location, long_name, date)
     # update database for a given location
-
     location_record = Location.where(name: long_name)
 
     if location_record.blank?
@@ -41,8 +42,18 @@ class AnalyticsController < ApplicationController
     month_diff.times do |i|
       GC.start
       crime_stats = get_analytics(location, (date << i).to_s[0..6])
+
       crime_stats.each do |key, value|
-        CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i])
+        crime_entry = CrimeEntry.where(location: location_record, name: key)
+
+        if crime_entry.blank?
+          # if it doesn't exist, add it
+          crime_entry = CrimeEntry.create([location: location_record, name: key, value: value.to_i, month: date << i])
+        end
+
+        crime_entry = crime_entry.first
+
+        crime_entry.update({ value: value.to_i, month: Date.parse(get_latest_crime_date) })
       end
     end
 
