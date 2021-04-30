@@ -3,8 +3,10 @@ class LogSearchController < ApplicationController
     Search.create(term: params[:search_term])
   end
 
-  def get_search_term_count
-    count = Search.where(term: params[:search_term]).count
+  def get_search_count
+    count = Rails.cache.fetch("internal:search_count", expires_in: 15.minutes) do
+      Search.all.count
+    end
     render json: count
   end
 end

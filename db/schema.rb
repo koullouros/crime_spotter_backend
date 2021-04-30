@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(version: 2021_04_23_191949) do
     t.bigint "location_id", null: false
     t.string "name"
     t.integer "value"
+    t.date "month"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.date "month"
     t.index ["location_id"], name: "index_crime_entries_on_location_id"
     t.index ["name", "month"], name: "index_crime_entries_on_name_and_month", unique: true
   end
@@ -40,9 +40,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_191949) do
   end
 
   create_table "visits", force: :cascade do |t|
-    t.string "page"
     t.string "ip_address"
-    t.string "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
