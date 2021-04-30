@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2021_04_23_191949) do
   end
 
   create_table "visits", force: :cascade do |t|
-    t.string "ip_address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

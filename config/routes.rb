@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'statistics/city' => 'analytics#analytics'
 
   # routes for log actions
-  post 'statistics/log_visit' => 'log_visit#log_visit'
+  get 'statistics/log_visit' => 'log_visit#log_visit'
   get 'statistics/get_visit_count' => 'log_visit#get_visit_count'
 
   post 'statistics/log_search' => 'log_search#log_search'
