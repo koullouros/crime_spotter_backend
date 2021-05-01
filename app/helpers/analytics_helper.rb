@@ -1,5 +1,10 @@
 module AnalyticsHelper
 
+  def is_location_in_uk(location)
+    name = JSON.parse(RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{location}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2"))[0]["display_name"]
+    (name.eql? "United Kingdom") ? false : (name.include? "United Kingdom")
+  end
+
   def get_analytics(location, date)
     poly = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{location}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
     poly = JSON.parse(poly)[0]['geojson']['coordinates']

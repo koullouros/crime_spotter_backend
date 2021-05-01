@@ -6,6 +6,12 @@ class AnalyticsController < ApplicationController
   def analytics
     # Responsible for returning analytics to front end given a city
     location = params[:name].downcase
+
+    if not is_location_in_uk(location)
+      render json: { error: "Location is invalid" }
+      return
+    end
+
     Search.create(term: params[:name])
     location_name = get_city_poly_name(location)
     location_record = Location.where(name: location_name)
