@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  # resources :crime_entries
-  # resources :locations
   get 'crime/crime' => 'crime#crime'
   get 'statistics/city' => 'analytics#analytics'
+  get 'geocode/forward' => 'crime#forward'
 
   # routes for log actions
   get 'statistics/log_visit' => 'log_visit#log_visit'
