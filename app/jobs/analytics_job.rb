@@ -29,7 +29,6 @@ class AnalyticsJob
         end
     
         location_record.update({ updated: date })
-    
       end
 
     handle_asynchronously :analyse
