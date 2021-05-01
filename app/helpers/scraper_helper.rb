@@ -7,9 +7,7 @@ module ScraperHelper
 
     return nil if query.nil?
 
-    html = URI.open("https://www.google.com/search?q=#{query}&tbm=nws&source=lnt&tbs=sbd:1")
-
-    response = Nokogiri::HTML(html)
+    response = Nokogiri::HTML(URI.open("https://www.google.com/search?q=#{query}&tbm=nws&source=lnt&tbs=sbd:1"))
 
     # Selects div containing individual articles, steps through children to extract article link.
     urls = response.xpath('//div[@id="main"]/*[position() > 3 and position() < 14]/*[1]/*[1]/*[1]/@href')
@@ -26,9 +24,9 @@ module ScraperHelper
       url = url.split('&sa')[0]
 
       articles.push(
-        title: titles[index].to_s.force_encoding("ISO-8859-1").encode("UTF-8"),
+        title: titles[index].to_s.force_encoding('ISO-8859-1').encode('UTF-8'),
         url: url.to_s,
-        description: description[index].to_s.force_encoding("ISO-8859-1").encode("UTF-8")
+        description: description[index].to_s.force_encoding('ISO-8859-1').encode('UTF-8')
       )
     end
 
