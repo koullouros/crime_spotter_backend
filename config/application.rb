@@ -25,10 +25,10 @@ module CrimeSpotterBackend
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
     
-    # config.after_initialize do
-    #   # Rush::Box.new.bash("bin/delayed_job start -i analytics_worker--sleep-delay 10000", background: true)
-    # end 
-    
+    config.after_initialize do
+      Delayed::Worker.max_attempts = 1
+    end 
+
     config.action_cable.mount_path = '/news'
     
     config.action_cable.url = 'wss://crime-spotter-backend.herokuapp.com/news'
