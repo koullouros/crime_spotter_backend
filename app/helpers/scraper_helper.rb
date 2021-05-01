@@ -1,5 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
+require 'json'
+require 'rest-client'
 
 module ScraperHelper
 
@@ -37,10 +39,31 @@ module ScraperHelper
 
   end
 
+  def cse_scraper(query, source)
+    url = nil
+    case source
+    when "independent"
+      url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=AJvRUv1LPFWX-6ome3-O1kxs9ZWg:1619907197367&sort=&exp=csqr,cc&oq=#{query}&gs_l=partner-generic.3...35202.35755.2.37222.4.4.0.0.0.0.94.253.4.4.0.csems%2Cnrl%3D13...0.35931j1240015283j6...1.34.partner-generic..9.8.734.utZWNTZDrQk&callback=g"
+    when "guardian"
+      url = "https://cse.google.com/cse/element/v1?rsz=small&num=4&hl=en&source=gcsc&gss=.com&cselibv=323d4b81541ddb5b&cx=007466294097402385199:m2ealvuxh1i&q=#{query}&safe=off&cse_tok=AJvRUv3i9nNOUxg_o7ck-w3PmrUg:1619909268551&as_oq=&sort=&exp=csqr,cc&oq=#{query}&gs_l=partner-generic.3...0.0.1.6992.0.0.0.0.0.0.0.0..0.0.csems%2Cnrl%3D13...0.4773j22781529j2....34.partner-generic..6.7.663.qAWU9TNPwx8&callback=g"
+    else
+      url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=AJvRUv1LPFWX-6ome3-O1kxs9ZWg:1619907197367&sort=&exp=csqr,cc&oq=#{query}&gs_l=partner-generic.3...35202.35755.2.37222.4.4.0.0.0.0.94.253.4.4.0.csems%2Cnrl%3D13...0.35931j1240015283j6...1.34.partner-generic..9.8.734.utZWNTZDrQk&callback=g"
+    end
+    results = JSON.parse(RestClient.get(url)[10..-3])["results"]
+    articles = []
+    results.each do |result|
+      articles.push(
+        title: result["titleNoFormatting"].to_s.force_encoding('ISO-8859-1').encode('UTF-8'),
+        url: result["cacheUrl"].to_s,
+        description: result["contentNoFormatting"].to_s.force_encoding('ISO-8859-1').encode('UTF-8')
+      )
+    end
+    articles
+  end
+
+
+
   # London crime news?
   #
   # The independent?
-
-
 end
-

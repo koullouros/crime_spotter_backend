@@ -12,7 +12,15 @@ class NewsChannel < ApplicationCable::Channel
   end
 
   def request_update(data)
-    scrape = google_scraper("#{data["location"]} crime")
+    scrape = nil
+    case data["source"]
+    when "google"
+      scrape = google_scraper("#{data["location"]}, UK crime")
+    when "independent", "guardian"
+      scrape = cse_scraper("#{data["location"]}, UK crime", data["source"])
+    else
+      scrape = google_scraper("#{data["location"]}, UK crime")
+    end
     NewsChannel.broadcast_to current_user, scrape
   end
 end
