@@ -1,5 +1,5 @@
 class CrimeEntry < ApplicationRecord
   belongs_to :location
   validates :location, :name, :value, :month, presence: true
-  validates :name, uniqueness: { :scope => [:location, :month] }
+  validates :name, uniqueness: { :scope => [:location_id, :month] }
 end

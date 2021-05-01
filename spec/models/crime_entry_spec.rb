@@ -25,7 +25,7 @@ RSpec.describe CrimeEntry, type: :model do
     it { should validate_presence_of(:value) }
     it { should validate_presence_of(:month) }
     it { should validate_presence_of(:location) }
-    it { should validate_uniqueness_of(:name).scoped_to(:month) }
+    it { should validate_uniqueness_of(:name).scoped_to(:location_id, :month) }
   end
 
 end
