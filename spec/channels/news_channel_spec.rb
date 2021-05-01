@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe NewsChannel, type: :channel do
-  let(:action_cable) { ActionCable.server }
-
   let(:data) do
     {
       'location' => 'london',
