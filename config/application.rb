@@ -28,6 +28,7 @@ module CrimeSpotterBackend
     config.after_initialize do
       Delayed::Worker.max_attempts = 1
       Delayed::Worker.destroy_failed_jobs = false
+      puts "[INFO] Delayed Worker Config Set"
     end 
 
     config.action_cable.mount_path = '/news'

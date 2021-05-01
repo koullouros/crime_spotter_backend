@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2021_04_30_210131) do
     t.date "month"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id", "name", "month"], name: "index_crime_entries_on_location_id_and_name_and_month", unique: true
     t.index ["location_id"], name: "index_crime_entries_on_location_id"
-    t.index ["name", "month"], name: "index_crime_entries_on_name_and_month", unique: true
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
