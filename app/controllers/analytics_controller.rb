@@ -15,12 +15,8 @@ class AnalyticsController < ApplicationController
     Search.create(term: params[:name])
     location_name = get_city_poly_name(location)
     location_record = Location.where(name: location_name)
-
     # if location hasn't been updated recently, update location
     if location_record.blank? || (location_record.first.updated < Date.parse(get_latest_crime_date))
-      # Thread.new do
-      #   update_database(location, location_name, Date.parse(get_latest_crime_date))
-      # end
       AnalyticsJob.new.analyse(location, location_name, Date.parse(get_latest_crime_date))
     end
 
