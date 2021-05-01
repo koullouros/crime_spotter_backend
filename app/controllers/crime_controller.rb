@@ -16,7 +16,7 @@ class CrimeController < ApplicationController
 
   def forward
     lat_longs = Rails.cache.fetch("geocode:" + params[:q], expires_in: 7.days) do
-      array = JSON.parse(RestClient.get("https://api.mapbox.com/geocoding/v5/mapbox.places/#{params[:q]}.json?access_token=" + ENV["GEOCODE_API_KEY"]))["features"]
+      array = JSON.parse(RestClient.get("https://api.mapbox.com/geocoding/v5/mapbox.places/#{CGI.escape(params[:q])}.json?access_token=" + ENV["GEOCODE_API_KEY"]))["features"]
       array.empty? ? { error: "Place not found" } : array
     end
     render json: lat_longs
