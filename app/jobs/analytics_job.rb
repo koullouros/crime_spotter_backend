@@ -12,7 +12,7 @@ class AnalyticsJob
       end
       location_record = location_record.first
       # Sanity check for jobs
-      months = CrimeEntry.where(location_id: location_record["id"])
+      months = CrimeEntry.where(location_id: location_record["id"], month: date)
       if not months.empty?
         return
       end
