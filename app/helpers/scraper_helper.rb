@@ -35,52 +35,37 @@ module ScraperHelper
     articles
   end
 
-  def bbc_scraper(query)
-
-  end
-
   def cse_scraper(query, source)
-    url = nil
+    return nil if query.nil?
+
     begin
-      case source
-      when "independent"
+      if source == 'independent'
         url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=#{Rails.cache.read("cse:independent")}&sort=date&exp=csqr,cc&callback=g"
-      when "guardian"
+      else # (source == Guardian)
         url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.com&cselibv=323d4b81541ddb5b&cx=007466294097402385199:m2ealvuxh1i&q=#{query}&safe=off&cse_tok=#{Rails.cache.read("cse:guardian")}&as_oq=&sort=date&exp=csqr,cc&callback=g"
-      else
-        url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=#{Rails.cache.read("cse:independent")}&sort=date&exp=csqr,cc&callback=g"
       end
-      puts url
-      results = JSON.parse(RestClient.get(url)[10..-3])["results"]
-      puts results == nil
-      if results == nil
-        raise
-      end
-    rescue
+      results = JSON.parse(RestClient.get(url)[10..-3])['results']
+      raise if results.nil?
+    rescue StandardError
       Rails.cache.write("cse:#{source}", refresh_cse_token(source))
       retry
     end
     articles = []
     results.each do |result|
       articles.push(
-        title: result["titleNoFormatting"].to_s.force_encoding('ISO-8859-1').encode('UTF-8'),
-        url: result["url"].to_s,
-        description: result["contentNoFormatting"].to_s.force_encoding('ISO-8859-1').encode('UTF-8')
+        title: result['titleNoFormatting'].to_s.force_encoding('ISO-8859-1').encode('UTF-8'),
+        url: result['cacheUrl'].to_s,
+        description: result['contentNoFormatting'].to_s.force_encoding('ISO-8859-1').encode('UTF-8')
       )
     end
     articles
   end
 
   def refresh_cse_token(source)
-    if source == "independent"
-      return JSON.parse(RestClient.get("https://cse.google.co.uk/cse/cse.js?cx=006663403660930254993:oxhge2zf1ro")[5997..-3])["cse_token"]
+    if source == 'independent'
+      return JSON.parse(RestClient.get('https://cse.google.co.uk/cse/cse.js?cx=006663403660930254993:oxhge2zf1ro')[5997..-3])['cse_token']
     end
-    JSON.parse(RestClient.get("https://cse.google.co.uk/cse/cse.js?cx=007466294097402385199:m2ealvuxh1i")[5997..-3])["cse_token"]
+
+    JSON.parse(RestClient.get('https://cse.google.co.uk/cse/cse.js?cx=007466294097402385199:m2ealvuxh1i')[5997..-3])['cse_token']
   end
-
-
-
-  # London crime news?
-  #
-  # The independent?
 end
