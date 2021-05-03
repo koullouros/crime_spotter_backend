@@ -19,7 +19,7 @@ class NewsChannel < ApplicationCable::Channel
     when "independent", "guardian"
       scrape = cse_scraper("#{data["location"]}, UK crime", data["source"])
     else
-      scrape = google_scraper("#{data["location"]}, UK crime")
+      scrape = google_scraper("#{data["location"]} crime")
     end
     NewsChannel.broadcast_to current_user, scrape
   end
