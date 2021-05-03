@@ -41,15 +41,26 @@ module ScraperHelper
 
   def cse_scraper(query, source)
     url = nil
-    case source
-    when "independent"
-      url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=AJvRUv2r4sco5PEeSghxyFXMp7Z9:1619958360066&sort=date&exp=csqr,cc&callback=g"
-    when "guardian"
-      url = "https://cse.google.com/cse/element/v1?rsz=small&num=4&hl=en&source=gcsc&gss=.com&cselibv=323d4b81541ddb5b&cx=007466294097402385199:m2ealvuxh1i&q=#{query}&safe=off&cse_tok=AJvRUv1KXgc7jxxAcCIs1CYqBZVc:1619958488164&as_oq=&sort=date&exp=csqr,cc&callback=g"
-    else
-      url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=AJvRUv2r4sco5PEeSghxyFXMp7Z9:1619958360066&sort=date&exp=csqr,cc&callback=g"
+    begin
+      case source
+      when "independent"
+        url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=#{Rails.cache.read("cse:independent")}&sort=date&exp=csqr,cc&callback=g"
+      when "guardian"
+        url = "https://cse.google.com/cse/element/v1?rsz=small&num=4&hl=en&source=gcsc&gss=.com&cselibv=323d4b81541ddb5b&cx=007466294097402385199:m2ealvuxh1i&q=#{query}&safe=off&cse_tok=#{Rails.cache.read("cse:guardian")}&as_oq=&sort=date&exp=csqr,cc&callback=g"
+      else
+        url = "https://cse.google.com/cse/element/v1?rsz=10&num=10&hl=en&source=gcsc&gss=.uk&cselibv=323d4b81541ddb5b&cx=006663403660930254993:oxhge2zf1ro&q=#{query}&safe=off&cse_tok=#{Rails.cache.read("cse:independent")}&sort=date&exp=csqr,cc&callback=g"
+      end
+      puts url
+      results = JSON.parse(RestClient.get(url)[10..-3])["results"]
+      puts results == nil
+      if results == nil
+        raise
+      end
+    rescue
+      Rails.cache.write("cse:#{source}", refresh_cse_token(source))
+      puts Rails.cache.read("cse:#{source}")
+      retry
     end
-    results = JSON.parse(RestClient.get(url)[10..-3])["results"]
     articles = []
     results.each do |result|
       articles.push(
@@ -59,6 +70,13 @@ module ScraperHelper
       )
     end
     articles
+  end
+
+  def refresh_cse_token(source)
+    if source == "independent"
+      return JSON.parse(RestClient.get("https://cse.google.co.uk/cse/cse.js?cx=006663403660930254993:oxhge2zf1ro")[5997..-3])["cse_token"]
+    end
+    JSON.parse(RestClient.get("https://cse.google.co.uk/cse/cse.js?cx=007466294097402385199:m2ealvuxh1i")[5997..-3])["cse_token"]
   end
 
 
