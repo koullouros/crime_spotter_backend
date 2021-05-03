@@ -16,12 +16,15 @@ RSpec.describe ScraperHelper, type: :helper do
     cse_scraper('test', 'guardian')
   end
 
-  let(:invalid_query) do
-    cse_scraper(nil, 'google')
+  let(:invalid_google_query) do
+    google_scraper(nil)
+  end
+  let(:invalid_cse_query) do
+    cse_scraper(nil, 'independent')
   end
 
-  describe 'cse_scraper' do
-    context 'provided with a valid query and google as the source' do
+  describe 'google_scraper' do
+    context 'provided with a valid query' do
       it 'should return scraped data' do
         expect(google_query).not_to be_empty
       end
@@ -39,6 +42,14 @@ RSpec.describe ScraperHelper, type: :helper do
       end
     end
 
+    context 'provided with a nil query' do
+      it 'should return nil' do
+        expect(invalid_google_query).to be_nil
+      end
+    end
+  end
+
+  describe 'cse_scraper' do
     context 'provided with a valid query and The Independent as the source' do
       it 'should return scraped data' do
         expect(independent_query).not_to be_empty
@@ -77,7 +88,7 @@ RSpec.describe ScraperHelper, type: :helper do
 
     context 'provided with a nil query' do
       it 'should return nil' do
-        expect(invalid_query).to be_nil
+        expect(invalid_cse_query).to be_nil
       end
     end
   end
