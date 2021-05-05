@@ -24,8 +24,8 @@ RSpec.describe 'Analytics', type: :request do
     end
 
     context 'when invalid parameters are used' do
-      it 'should raise an error #TODO: CURRENTLY DOES NOT WORK AS VALIDATION DOES NOT EXIST#' do
-        # expect { invalid_request.call }.to raise_error(RestClient::NotFound)
+      it 'should raise an error' do
+        expect { invalid_request.call }.to raise_error(NoMethodError)
       end
     end
   end

@@ -7,8 +7,10 @@ class AnalyticsController < ApplicationController
     # Responsible for returning analytics to front end given a city
     location = params[:name].downcase
 
-    if not is_location_in_uk(location)
-      render json: { error: "Location is invalid" }
+    return NoMethodError if location.nil?
+
+    unless is_location_in_uk(location)
+      render json: {error: 'Location is invalid'}
       return
     end
 
