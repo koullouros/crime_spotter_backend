@@ -13,7 +13,7 @@ RSpec.describe 'LogSearches', type: :request do
     end
   end
 
-  describe 'POST /statistics/log_search' do
+  describe 'Log Search' do
     context 'with a valid search term' do
       it 'should add term to database' do
         submit_search_term.call
@@ -26,14 +26,12 @@ RSpec.describe 'LogSearches', type: :request do
   end
 
   describe 'GET /statistics/get_search_count' do
-    context 'None' do
-      it 'should get correct search count from database' do
-        submit_search_term.call
-        get_search_count.call
+    it 'should get correct search count from database' do
+      submit_search_term.call
+      get_search_count.call
 
-        expect(response.status).to eq(200)
-        expect(response.body).to eq('{"count":1}')
-      end
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('{"count":1}')
     end
   end
 end
