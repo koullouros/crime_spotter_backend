@@ -6,6 +6,7 @@ require 'rest-client'
 module ScraperHelper
 
   def google_scraper(query)
+    # Scrapes Google News for ten articles related to a given query
 
     return nil if query.nil?
 
@@ -36,6 +37,8 @@ module ScraperHelper
   end
 
   def cse_scraper(query, source)
+    # Uses provided CSE links from The Independent and The Guardian for news
+
     return nil if query.nil?
 
     begin
@@ -62,6 +65,7 @@ module ScraperHelper
   end
 
   def refresh_cse_token(source)
+    # Retrieves the latest token needed for scraping The Independent or The Guardian, then caches it
     if source == 'independent'
       return JSON.parse(RestClient.get('https://cse.google.co.uk/cse/cse.js?cx=006663403660930254993:oxhge2zf1ro')[5997..-3])['cse_token']
     end
