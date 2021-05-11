@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests requests to the CrimeController
 RSpec.describe 'Crime', type: :request do
   let(:successful_request) do
     # Produces a Lambda function containing a successful request

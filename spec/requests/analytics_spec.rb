@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests requests to the AnalyticsController
 RSpec.describe 'Analytics', type: :request do
   let(:successful_request) do
     # Produces a Lambda function containing a successful request

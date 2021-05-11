@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests all three scrapers capabilities in ScraperHelper
 RSpec.describe ScraperHelper, type: :helper do
   before do
     allow(Rails.cache).to receive(:read).with('cse:guardian').and_return(refresh_cse_token('guardian'))

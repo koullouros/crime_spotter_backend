@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests the ability to subscribe and request updates from NewsChannel
 RSpec.describe NewsChannel, type: :channel do
   let(:data) do
     {

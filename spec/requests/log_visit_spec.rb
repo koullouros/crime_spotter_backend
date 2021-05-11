@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests requests to the LogVisitController
 RSpec.describe 'LogVisits', type: :request do
   let(:log_visitor) do
     lambda do

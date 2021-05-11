@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests requests to the data police API for crime data in CrimeHelper
 RSpec.describe CrimeHelper, type: :helper do
   let(:valid_query) do
     crime_helper('52.268,0.543:52.794,0.238:52.130,0.478')

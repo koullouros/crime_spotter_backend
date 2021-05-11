@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Tests requests to the LogSearchController
 RSpec.describe 'LogSearches', type: :request do
   let(:submit_search_term) do
     lambda do
