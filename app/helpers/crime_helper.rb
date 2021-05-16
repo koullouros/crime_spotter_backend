@@ -16,14 +16,11 @@ module CrimeHelper
     # Retrieve street level crimes from data police API at coordinates
     resp = RestClient.post('https://data.police.uk/api/crimes-street/all-crime', poly: coordinates, date: get_latest_crime_date[0..6])
     json = JSON.parse(resp.body)
-
     crimes = []
-
     # Add each crime entry to an array in easier form for frontend to read
     json.each do |item|
       outcome_status = nil
       outcome_date = nil
-
       # Checks if crime has an outcome status as sometimes they aren't provided
       # If there is, they are defined and added to the data structure
       unless item['outcome_status'].nil?

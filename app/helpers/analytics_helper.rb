@@ -1,5 +1,5 @@
 module AnalyticsHelper
-
+  # Checks if location is in UK by using Nominatim
   def is_location_in_uk(location)
     name = JSON.parse(RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{location}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2"))[0]["display_name"]
     (name.eql? "United Kingdom") ? false : (name.include? "United Kingdom")
@@ -8,13 +8,12 @@ module AnalyticsHelper
   def get_analytics(location, date)
     poly = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{location}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
     poly = JSON.parse(poly)[0]['geojson']['coordinates']
-
+    # Standardise input for earclip algorithm
     poly.map! do |poly|
       poly.map do |vert|
         [vert[1], vert[0]]
       end
     end
-
     poly.map! do |poly|
       earclip_polygon(poly)
     end
@@ -43,22 +42,24 @@ module AnalyticsHelper
     end
     crimes.flatten!(1)
     crime_count = {}
-
+    # Tally up crime numbers
     crimes.each do |crime|
       crime_count[crime['category']] = crime_count.key?(crime['category']) ? crime_count[crime['category']] + 1 : 1
     end
 
-    #! Memoize crimes in db instead of sending back to user
-    #! Send back poly to user for minimap however
-    #TODO Think of more analytics options
+    # Return dictionary/map like object that holds the number of each crime
     crime_count
   end
-
+  # Get official name of location
   def get_city_poly_name(location)
     res = RestClient.get("https://nominatim.openstreetmap.org/search.php?q=#{location}&polygon_geojson=1&polygon_threshold=0.003&format=jsonv2")
     return JSON.parse(res)[0]["display_name"]
   end
-
+  # Earclip algorithm to split a given polygon into smaller polygons
+  # This is used as the crime API cannot get crime in very large areas
+  # Assume polygon is clockwise
+  # We ported it to ruby from https://github.com/linuxlewis/tripy
+  # Based on Seidel's Algorithm http://gamma.cs.unc.edu/SEIDEL/
   def earclip_polygon(polygon)
     ear_vertex = []
     triangles = []
